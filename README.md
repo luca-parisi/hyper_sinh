@@ -26,4 +26,6 @@ model.add(layers.MaxPooling2D((2, 2)))
 
 ### Citation request
 
-If you are using this function, please cite the paper by **[Parisi, L., 2020](https://arxiv.org/abs/2011.07661)** as follows: **arXiv:2011.07661 [cs.CV]**.
+If you are using this function, please cite the papers by:
+* **[Parisi, L., 2020](https://arxiv.org/abs/2011.07661)**.
+* **[Parisi, L. et al., 2021](https://www.wseas.org/multimedia/journals/computerresearch/2021/a025118-001(2021).pdf)**.
