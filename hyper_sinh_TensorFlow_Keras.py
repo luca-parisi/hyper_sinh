@@ -1,15 +1,35 @@
-# hyper-sinh as a custom activation function in TensorFlow
+"""Additional utility for Machine Learning and Deep Learning models in TensorFlow and Keras"""
 
-# Defining the hyper-sinh function
+# The hyperbolic sinh or 'hyper-sinh' as a custom activation function in TensorFlow (tf_hyper_sinh)
+# and Keras (hyper_sinh)
+
+# Author: Luca Parisi <luca.parisi@ieee.org>
+
 
 import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Layer
 
+
+# hyper-sinh as a custom activation function in TensorFlow
+
+'''
+# Example of usage of the hyper-sinh in TensorFlow as a custom activation function of a convolutional layer (#2)
+
+convolutional_layer_2 = tf.layers.conv2d(
+                        inputs=pooling_layer_1,
+                        filters=64,
+                        kernel_size=[5, 5],
+                        padding="same")
+convolutional_layer_activation = tf_hyper_sinh(convolutional_layer_2)
+pooling_layer_2 = tf.layers.max_pooling2d(inputs=convolutional_layer_activation, pool_size=[2, 2], strides=2)
+'''
+
+# Defining the hyper-sinh function
 def hyper_sinh(x):
-
   if x>0:
     x = 1/3*np.sinh(x)
     return x
-
   else:
     x = 1/4*(x**3)
     return x
@@ -18,21 +38,18 @@ def hyper_sinh(x):
 np_hyper_sinh = np.vectorize(hyper_sinh)
 
 # Defining the derivative of the function hyper-sinh
-
 def d_hyper_sinh(x):
-
   if x>0:
     x = 1/3*np.cosh(x)
     return x
-
   else:
     x = 3/4*(x**2)
     return x
 
+# Vectorising the derivative of the hyper-sinh function
 np_d_hyper_sinh = np.vectorize(d_hyper_sinh)
 
 # Defining the gradient function of the hyper-sinh
-
 def hyper_sinh_grad(op, grad):
     x = op.inputs[0]
     n_gr = tf_d_hyper_sinh(x)
@@ -47,6 +64,7 @@ def py_func(func, inp, Tout, stateful=True, name=None, grad=None):
         return tf.py_func(func, inp, Tout, stateful=stateful, name=name)
         
 np_hyper_sinh_32 = lambda x: np_hyper_sinh(x).astype(np.float32)
+
 def tf_hyper_sinh(x,name=None):
     with tf.name_scope(name, "hyper_sinh", [x]) as name:
         y = py_func(np_hyper_sinh_32,   #forward pass function
@@ -56,7 +74,9 @@ def tf_hyper_sinh(x,name=None):
                          grad= hyper_sinh_grad) # The function that overrides gradient
         y[0].set_shape(x.get_shape())     # Specify input rank
         return y[0]
+
 np_d_hyper_sinh_32 = lambda x: np_d_hyper_sinh(x).astype(np.float32)
+
 def tf_d_hyper_sinh(x,name=None):
     with tf.name_scope(name, "d_hyper_sinh", [x]) as name:
         y = tf.py_func(np_d_hyper_sinh_32,
@@ -66,17 +86,17 @@ def tf_d_hyper_sinh(x,name=None):
                         stateful=False)
         return y[0]
 
-# Example of usage in TensorFlow with a hyper-sinh layer between a convolutional layer (#2) and a pooling layer (#2)
-  conv2 = tf.layers.conv2d(
-      inputs=pool1,
-      filters=64,
-      kernel_size=[5, 5],
-      padding="same")
-  conv2_act = tf_hyper_sinh(conv2)
-  pool2 = tf.layers.max_pooling2d(inputs=conv2_act, pool_size=[2, 2], strides=2)
 
 # hyper-sinh as a custom layer in Keras 
-from tensorflow.keras.layers import Layer
+
+'''
+# Example of usage of the hyper-sinh as a Keras layer in a sequential model between a convolutional layer and a pooling layer
+
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), input_shape=(32, 32, 3)))
+model.add(hyper_sinh())
+model.add(layers.MaxPooling2D((2, 2)))
+'''
 
 class hyper_sinh(Layer):
 
@@ -95,10 +115,3 @@ class hyper_sinh(Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape
-
-# Example of usage in a sequential model in Keras with a hyper-sinh layer between a convolutional layer and a pooling layer
-
-model = models.Sequential()
-model.add(layers.Conv2D(32, (3, 3), input_shape=(32, 32, 3)))
-model.add(hyper_sinh())
-model.add(layers.MaxPooling2D((2, 2)))
