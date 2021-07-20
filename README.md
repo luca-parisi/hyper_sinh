@@ -3,7 +3,7 @@
 
 The **'hyper-sinh'** is a Python custom activation function available for both shallow and deep neural networks in TensorFlow and Keras for Machine Learning- and Deep Learning-based classification. It is distributed under the [CC BY 4.0 license](http://creativecommons.org/licenses/by/4.0/).
 
-Details on this function, implementation and validation against gold standard activation functions for both shallow and deep neural networks are available at the following: **[Parisi, L., 2020](https://arxiv.org/abs/2011.07661)**. 
+Details on this function, implementation and validation against gold standard activation functions for both shallow and deep neural networks are available at the following: **[Parisi et al., 2021a](https://www.sciencedirect.com/science/article/pii/S2666827021000566)**. 
 
 
 ### Dependencies
@@ -27,5 +27,6 @@ model.add(layers.MaxPooling2D((2, 2)))
 ### Citation request
 
 If you are using this function, please cite the papers by:
-* **[Parisi, L., 2020](https://arxiv.org/abs/2011.07661)**.
-* **[Parisi, L. et al., 2021](https://www.wseas.org/multimedia/journals/computerresearch/2021/a025118-001(2021).pdf)**.
+* **[Parisi et al., 2020](https://arxiv.org/abs/2011.07661)**.
+* **[Parisi et al., 2021a](https://www.sciencedirect.com/science/article/pii/S2666827021000566)**.
+* **[Parisi et al., 2021b](https://www.wseas.org/multimedia/journals/computerresearch/2021/a025118-001(2021).pdf)**.
