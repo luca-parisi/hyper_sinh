@@ -5,11 +5,9 @@
 
 # Author: Luca Parisi <luca.parisi@ieee.org>
 
-
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import Layer
-
 
 # hyper-sinh as a custom activation function in TensorFlow
 
@@ -67,12 +65,12 @@ np_hyper_sinh_32 = lambda x: np_hyper_sinh(x).astype(np.float32)
 
 def tf_hyper_sinh(x,name=None):
     with tf.name_scope(name, "hyper_sinh", [x]) as name:
-        y = py_func(np_hyper_sinh_32,   #forward pass function
+        y = py_func(np_hyper_sinh_32,  # forward pass function
                         [x],
                         [tf.float32],
                         name=name,
-                         grad= hyper_sinh_grad) # The function that overrides gradient
-        y[0].set_shape(x.get_shape())     # Specify input rank
+                         grad= hyper_sinh_grad)  # The function that overrides gradient
+        y[0].set_shape(x.get_shape())  # Specify input rank
         return y[0]
 
 np_d_hyper_sinh_32 = lambda x: np_d_hyper_sinh(x).astype(np.float32)
@@ -98,6 +96,7 @@ model.add(hyper_sinh())
 model.add(layers.MaxPooling2D((2, 2)))
 '''
 
+
 class hyper_sinh(Layer):
 
     def __init__(self):
@@ -115,3 +114,4 @@ class hyper_sinh(Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape
+      
