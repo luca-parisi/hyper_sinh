@@ -11,12 +11,15 @@ from tensorflow import Tensor
 from tensorflow.keras.layers import Layer
 from tensorflow.lite.python.op_hint import _LiteFuncCall
 
-# hyper-sinh as a custom activation function in TensorFlow
-
 from tf_keras.utils import py_func
 
-from .constants import (GT_COEFFICIENT, LE_DERIV_FIRST_COEFF, LE_DERIV_SECOND_COEFF, LE_FIRST_COEFFICIENT,
-                        LE_SECOND_COEFFICIENT, NAME_DERIV_HYPER_SINH, NAME_HYPER_SINH)
+from .constants import (GT_COEFFICIENT, LE_DERIV_FIRST_COEFF,
+                        LE_DERIV_SECOND_COEFF, LE_FIRST_COEFFICIENT,
+                        LE_SECOND_COEFFICIENT, NAME_DERIV_HYPER_SINH,
+                        NAME_HYPER_SINH)
+
+# hyper-sinh as a custom activation function in TensorFlow
+
 
 '''
 # Example of usage of the hyper-sinh in TensorFlow as a custom activation function of a convolutional layer (#2)
@@ -128,7 +131,7 @@ def tf_hyper_sinh(x):
 
 
 def np_der_hyper_sinh_float32(
-        x): return np_der_hyper_sinh(x).astype(np.float32)
+    x): return np_der_hyper_sinh(x).astype(np.float32)
 
 
 def tf_der_hyper_sinh(x: list[Tensor]) -> float:
