@@ -8,21 +8,47 @@ Details on this function, implementation and validation against gold standard ac
 
 ### Dependencies
 
-Developed in Python 3.6, as compatible with TensorFlow (versions tested: 1.12 and 1.15) and Keras, please note the dependencies of TensorFlow (v1.12 or 1.15) and Keras to be able to use the 'hyper-sinh' activation function in shallow and deep neural networks.
+The dependencies are included in the `environment.yml` file. 
+Run the following command to install the required version of Python (v3.9.16) and all dependencies in a conda virtual 
+environment (replace `<env_name>` with your environment name):
 
+- `conda env create --name <env_name> --file environment.yml`
 
 ### Usage
 
-You can use the custom hyper-sinh activation function in Keras as a layer:
+You can use the custom `HyperSinh` activation function in Keras as a layer:
 
-#### Example of usage in a sequential model in Keras with a hyper-sinh layer between a convolutional layer and a pooling layer
+#### Example of usage in a sequential model in Keras with a HyperSinh layer between a convolutional layer and a pooling layer
+
+Either
 
 ```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), input_shape=(32, 32, 3)))
-model.add(hyper_sinh()) 
+model.add(HyperSinh()) 
 model.add(layers.MaxPooling2D((2, 2)))
 ```
+
+or
+
+```python
+model = keras.Sequential(
+        keras.Input(shape=(32, 32, 3)),
+
+        layers.Conv2D(32, kernel_size=(3, 3)),
+        HyperSinh(),
+
+        layers.MaxPooling2D(pool_size=(2, 2)),
+    ]
+)
+```
+
+### Linting
+`isort` is used to ensure a consistent order of imports, whilst `autopep8` to ensure adherence of the codes to PEP-8, 
+via the following two commands respectively:
+
+- `isort <folder_name>`
+- `autopep8 --in-place --recursive .`
 
 ### Citation request
 
