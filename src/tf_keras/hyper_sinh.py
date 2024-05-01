@@ -7,16 +7,15 @@
 
 import numpy as np
 import tensorflow as tf
+from src.constants import (GT_COEFFICIENT, LE_FIRST_COEFFICIENT,
+                           LE_SECOND_COEFFICIENT, NAME_HYPER_SINH)
+from src.tf_keras.constants import (LE_DERIV_FIRST_COEFF,
+                                    LE_DERIV_SECOND_COEFF,
+                                    NAME_DERIV_HYPER_SINH)
+from src.tf_keras.utils import py_func
 from tensorflow import Tensor
 from tensorflow.keras.layers import Layer
 from tensorflow.lite.python.op_hint import _LiteFuncCall
-
-from tf_keras.utils import py_func
-
-from .constants import (GT_COEFFICIENT, LE_DERIV_FIRST_COEFF,
-                        LE_DERIV_SECOND_COEFF, LE_FIRST_COEFFICIENT,
-                        LE_SECOND_COEFFICIENT, NAME_DERIV_HYPER_SINH,
-                        NAME_HYPER_SINH)
 
 # hyper-sinh as a custom activation function in TensorFlow
 
@@ -34,7 +33,6 @@ pooling_layer_2 = tf.layers.max_pooling2d(inputs=convolutional_layer_activation,
 '''
 
 
-# Defining the hyper-sinh function
 def hyper_sinh(x: float) -> float:
     """
     Apply the hyper-sinh activation function to transform inputs accordingly.

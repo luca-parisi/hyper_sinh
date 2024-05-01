@@ -1,7 +1,7 @@
-# hyper-sinh in TensorFlow and Keras
+# hyper-sinh in TensorFlow, Keras, and PyTorch
 ## An Accurate and Reliable Function from Shallow to Deep Learning
 
-The **'hyper-sinh'** is a Python custom activation function available for both shallow and deep neural networks in TensorFlow and Keras for Machine Learning- and Deep Learning-based classification. It is distributed under the [CC BY 4.0 license](http://creativecommons.org/licenses/by/4.0/).
+The **'hyper-sinh'** is a Python custom activation function available for both shallow and deep neural networks in TensorFlow, Keras, and PyTorch for Machine Learning- and Deep Learning-based classification. It is distributed under the [CC BY 4.0 license](http://creativecommons.org/licenses/by/4.0/).
 
 Details on this function, implementation and validation against gold standard activation functions for both shallow and deep neural networks are available at the following paper: **[Parisi et al., 2021a](https://www.sciencedirect.com/science/article/pii/S2666827021000566)**. 
 
@@ -16,9 +16,9 @@ environment (replace `<env_name>` with your environment name):
 
 ### Usage
 
-You can use the custom `HyperSinh` activation function in Keras as a layer:
+You can use the custom `HyperSinh` activation function in Keras or PyTorch as a layer:
 
-#### Example of usage in a sequential model in Keras with a HyperSinh layer between a convolutional layer and a pooling layer
+#### Example of usage in a sequential model in Keras with a `HyperSinh` layer between a convolutional layer and a pooling layer
 
 Either
 
@@ -41,6 +41,14 @@ model = keras.Sequential(
         layers.MaxPooling2D(pool_size=(2, 2)),
     ]
 )
+```
+
+#### Example of usage in a sequential model in PyTorch with a `HyperSinh` layer between a convolutional layer and a pooling layer
+
+```python
+self.conv1 = nn.Conv2d(1, OUT_CHANNEL_CONV1, kernel_size=KERNEL_SIZE_CONV)
+self.hyper_sinh1 = HyperSinh()
+self.pool1 = nn.MaxPool2d(kernel_size=KERNEL_SIZE_MAX_POOL)
 ```
 
 ### Linting

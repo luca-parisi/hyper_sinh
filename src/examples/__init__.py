@@ -1,1 +1,3 @@
-from . import tf_keras
+"""Init of the examples module"""
+
+__all__ = ['pytorch', 'tf_keras']

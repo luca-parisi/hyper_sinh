@@ -1,23 +1,25 @@
 """
 Example of a simple MNIST image classifier using the hyper-sinh activation function in its two
-convolutional layers.
+convolutional layers in Tf.keras.
 
 Adapted from https://keras.io/examples/vision/mnist_convnet/
 """
 
 import numpy as np
+from src.examples.constants import (BATCH_SIZE, DROPOUT, IMAGE_DIM,
+                                    KERNEL_SIZE_CONV, KERNEL_SIZE_MAX_POOL,
+                                    NUM_CLASSES, NUM_EPOCHS, OUT_CHANNEL_CONV1,
+                                    OUT_CHANNEL_CONV2)
+from src.tf_keras.hyper_sinh import HyperSinh
 from tensorflow import keras
 from tensorflow.keras import layers
-
-from tf_keras.hyper_sinh import HyperSinh
 
 """
 ## Prepare the data
 """
 
 # Model / data parameters
-num_classes = 10
-inputs_shape = (28, 28, 1)
+inputs_shape = (IMAGE_DIM, IMAGE_DIM, 1)
 
 # Load the data and split it between train and test sets
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
@@ -34,8 +36,8 @@ print(x_test.shape[0], "test samples")
 
 
 # Convert class vectors to binary class matrices
-y_train = keras.utils.to_categorical(y_train, num_classes)
-y_test = keras.utils.to_categorical(y_test, num_classes)
+y_train = keras.utils.to_categorical(y_train, NUM_CLASSES)
+y_test = keras.utils.to_categorical(y_test, NUM_CLASSES)
 
 """
 ## Build the model
@@ -46,20 +48,24 @@ model = keras.Sequential(
         keras.Input(shape=inputs_shape),
 
         # First convolutional layer with the 'HyperSinh' activation function
-        layers.Conv2D(32, kernel_size=(3, 3)),
+        layers.Conv2D(OUT_CHANNEL_CONV1, kernel_size=(
+            KERNEL_SIZE_CONV, KERNEL_SIZE_CONV)),
         # Instead of layers.Conv2D(64, kernel_size=(3, 3), activation="relu") when using the ReLU activation
         HyperSinh(),
 
-        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.MaxPooling2D(pool_size=(
+            KERNEL_SIZE_MAX_POOL, KERNEL_SIZE_MAX_POOL)),
 
         # Second convolutional layer with the 'HyperSinh' activation function
-        layers.Conv2D(64, kernel_size=(3, 3)),
+        layers.Conv2D(OUT_CHANNEL_CONV2, kernel_size=(
+            KERNEL_SIZE_CONV, KERNEL_SIZE_CONV)),
         HyperSinh(),
 
-        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.MaxPooling2D(pool_size=(
+            KERNEL_SIZE_MAX_POOL, KERNEL_SIZE_MAX_POOL)),
         layers.Flatten(),
-        layers.Dropout(0.5),
-        layers.Dense(num_classes, activation="softmax"),
+        layers.Dropout(DROPOUT),
+        layers.Dense(NUM_CLASSES, activation="softmax"),
     ]
 )
 
@@ -69,14 +75,11 @@ model.summary()
 ## Train the model
 """
 
-batch_size = 128
-epochs = 2
-
 model.compile(loss="categorical_crossentropy",
               optimizer="adam", metrics=["accuracy"])
 
-model.fit(x_train, y_train, batch_size=batch_size,
-          epochs=epochs, validation_split=0.1)
+model.fit(x_train, y_train, batch_size=BATCH_SIZE,
+          epochs=NUM_EPOCHS, validation_split=0.1)
 
 """
 ## Evaluate the trained model
