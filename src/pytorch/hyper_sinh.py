@@ -43,9 +43,8 @@ def torch_hyper_sinh(x: torch.Tensor) -> torch.Tensor:
     Returns:
             The transformed x (torch.Tensor) via the hyper-sinh.
     """
-    if torch.any(x > 0):
-        x = GT_COEFFICIENT_PYTORCH * torch.sinh(x)
-        return x
-    else:
-        x = LE_FIRST_COEFFICIENT_PYTORCH * (x**LE_SECOND_COEFFICIENT_PYTORCH)
-        return x
+    return torch.where(
+            x > 0,
+            GT_COEFFICIENT_PYTORCH * torch.sinh(x),
+            LE_FIRST_COEFFICIENT_PYTORCH * (x**LE_SECOND_COEFFICIENT_PYTORCH),
+    )
